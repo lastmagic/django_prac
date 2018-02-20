@@ -16,3 +16,6 @@ def index(request):
     candidates = Candidate.objects.all()
     context = {'candidates':candidates}
     return render(request, 'elections/index.html', context)
+
+def areas(request, area):
+    return HttpResponse(area)
