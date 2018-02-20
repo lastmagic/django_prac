@@ -29,11 +29,10 @@
               <td>{{candidate.introduction}}</td>
               <td>{{candidate.party_number}}</td>
               <td>
-                <form action="#" method="post">{% csrf_token %}
-                  <button name="choice" value = "#">
-                    선택
-                  </button>
-                </form>
+                <form action = "/polls/{{poll.id}}/" method = "post">
+               {% csrf_token %}
+                   <button name="choice" value="{{candidate.id}}">선택</button>
+               </form>
               </td>
             </tr>
               {% endfor %}

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
 from .models import Candidate, Poll, Choice
@@ -28,3 +28,19 @@ def areas(request, area):
         candidates = None
     context = {'candidates': candidates, 'area':area, 'poll':poll}
     return render(request, 'elections/area.html', context)
+
+
+def polls(request, poll_id):
+    poll = Poll.objects.get(pk = poll_id)
+    selection = request.POST['choice']
+
+    try:
+        choice = Choice.objects.get(poll_id = poll.id, candidate_id = selection)
+        choice.votes += 1
+        choice.save()
+    except:
+        #최초로 투표하는 경우, DB에 저장된 Choice객체가 없기 때문에 Choice를 새로 생성합니다
+        choice = Choice(poll_id = poll.id, candidate_id = selection, votes = 1)
+        choice.save()
+
+    return HttpResponse("Finish, now votes = {votes}".format(votes=choice.votes))
