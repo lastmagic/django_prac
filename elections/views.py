@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.db.models import Sum
 from .models import Candidate, Poll, Choice
 import datetime
@@ -63,7 +63,7 @@ def results(request, area):
         rates = [] #지지율
         for candidate in candidates:
             try:
-                choice = Choice.objects.get(poll=poll, candidate_id=candidate.id)
+                choice = Choice.objects.get(poll=poll, candidate=candidate)
                 rates.append(round(choice.votes *100 / result['total_votes'], 1))
             except:
                 rates.append(0)
@@ -72,3 +72,8 @@ def results(request, area):
 
     context = {'candidates':candidates, 'area':area, 'poll_results':poll_results}
     return render(request, 'elections/result.html', context)
+
+
+def candidates(request, name):
+    candidate = get_object_or_404(Candidate, name=name)
+    return HttpResponse(candidate.name)
