@@ -14,4 +14,5 @@ def index(request):
 '''
 def index(request):
     candidates = Candidate.objects.all()
-    return render(request, 'elections/index.html', {'candidates':candidates})
+    context = {'candidates':candidates}
+    return render(request, 'elections/index.html', context)
