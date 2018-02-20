@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 
 from .models import Candidate, Poll, Choice
 import datetime
@@ -43,4 +43,9 @@ def polls(request, poll_id):
         choice = Choice(poll_id = poll.id, candidate_id = selection, votes = 1)
         choice.save()
 
-    return HttpResponse("Finish, now votes = {votes}".format(votes=choice.votes))
+    #return HttpResponse("Finish, now votes = {votes}".format(votes=choice.votes))
+    return HttpResponseRedirect("/areas/{area}/results".format(area=poll.area))
+
+
+def results(request, area):
+    return render(request, 'elections/result.html',)
