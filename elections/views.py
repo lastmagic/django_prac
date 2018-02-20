@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from .models import Candidate
+from .models import Candidate, Poll, Choice
+import datetime
 
 '''
 def index(request):
@@ -18,4 +19,12 @@ def index(request):
     return render(request, 'elections/index.html', context)
 
 def areas(request, area):
-    return HttpResponse(area)
+    today = datetime.datetime.now()
+    try:
+        poll = Poll.objects.get(area=area, start_date__lte = today, end_date__gte=today)
+        candidates = Candidate.objects.filter(area = area)
+    except:
+        poll = None
+        candidates = None
+    context = {'candidates': candidates, 'area':area, 'poll':poll}
+    return render(request, 'elections/area.html', context)
