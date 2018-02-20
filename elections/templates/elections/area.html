@@ -32,7 +32,7 @@
                 <form action = "/polls/{{poll.id}}/" method = "post">
                {% csrf_token %}
                    <button name="choice" value="{{candidate.id}}">선택</button>
-               </form>
+               </form
               </td>
             </tr>
               {% endfor %}
