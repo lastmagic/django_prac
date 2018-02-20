@@ -1,7 +1,8 @@
 from django.conf.urls import url
 from . import views #.은 현재 폴더(elections)를 의미합니다.
-
+app_name = 'elections'
 urlpatterns = [
+    url(r'^$', views.index, name='home'),
     url(r'^$', views.index), #위의 urls.py와는 달리 include가 없습니다.
     url(r'^areas/(?P<area>[가-힣]+)/$', views.areas),
     url(r'^areas/(?P<area>[가-힣]+)/results$', views.results),
